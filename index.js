@@ -21,3 +21,5 @@ app.get('/', (req, res) => {
   console.log("working");
   res.send("Server is working");  
 });
+
+module.exports=  app;

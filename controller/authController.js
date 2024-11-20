@@ -1,10 +1,11 @@
 const { prisma } = require("../db/config");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require('../constants/constant.js');
 const dotenv = require("dotenv");
 dotenv.config();
 
-const JWT_SECRET = process.env.JWT_SECRET; 
+// const JWT_SECRET = process.env.JWT_SECRET; 
 
 const signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -33,12 +34,10 @@ const signup = async (req, res) => {
         password: hashedPassword,
       },
     });
-
     return res
       .status(201)
       .json({ message: "User created successfully", userId: user.id });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ error: "Server error" });
   }
 };
@@ -52,8 +51,9 @@ const login = async (req, res) => {
 
   try {
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: email },
     });
+
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -69,9 +69,8 @@ const login = async (req, res) => {
       expiresIn: "1h",
     });
 
-    return res.status(200).json({ token });
+    return res.status(200).json({userdata:user ,accesstoken: token });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ error: "Server error" });
   }
 };

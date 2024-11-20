@@ -1,0 +1,253 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-11-20T06:55:35.203Z",
+    "end": "2024-11-20T06:55:35.417Z",
+    "duration": 214,
+    "testsRegistered": 6,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "311a9292-2a10-4c7a-86fd-1337b1309d34",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "072f1405-a657-44ca-bdd2-9d9cc1647a47",
+          "title": "Auth Routes",
+          "fullFile": "/Users/newtonschool/Downloads/Authentication 2/__tests__/test.js",
+          "file": "/__tests__/test.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"Auth Routes\"",
+              "fullTitle": "Auth Routes \"before all\" hook in \"Auth Routes\"",
+              "timedOut": false,
+              "duration": 65,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await prisma.user.deleteMany();\nawait prisma.user.create({\n  data: {\n    id: 1,\n    name: 'logan',\n    email: 'logan@gmail.com',\n    password: await bcrypt.hash('logan123', 10) // Assuming bcrypt is used\n  }\n});",
+              "err": {},
+              "uuid": "9e1bf9f0-e54d-4413-97fa-67eb6d969229",
+              "parentUUID": "072f1405-a657-44ca-bdd2-9d9cc1647a47",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Auth Routes\"",
+              "fullTitle": "Auth Routes \"after all\" hook in \"Auth Routes\"",
+              "timedOut": false,
+              "duration": 6,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await prisma.$disconnect();",
+              "err": {},
+              "uuid": "1a27387c-5f98-420e-b3f6-884708686cdf",
+              "parentUUID": "072f1405-a657-44ca-bdd2-9d9cc1647a47",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "should create account for a given user",
+              "fullTitle": "Auth Routes should create account for a given user",
+              "timedOut": false,
+              "duration": 3,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const newUser = {\n    name: \"logan\",\n    email: \"logan12@gmail.com\",\n    password : \"logan1234\"\n}; \nchai\n  .request(app)\n  .post('/api/auth/signup')\n  .send(newUser)\n  .end(async (err, res) => {\n    expect(res).to.have.status(201);\n    expect(res.body).to.be.an('object');\n    expect(res.body).to.include(newUser);\n    expect(res.body.email).to.be.equal(newUser.email)\n    userId = res.body.userId; \n    // Verify in database\n    const userInDb = await prisma.user.findUnique({\n      where: { userId: parseInt(res.body.userId) },\n    });\n    expect(userInDb).to.include(newUser);\n  });\n  done();",
+              "err": {},
+              "uuid": "94fd16ca-350c-4bf8-b926-b04b21245272",
+              "parentUUID": "072f1405-a657-44ca-bdd2-9d9cc1647a47",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should return 400 if the email is already in use",
+              "fullTitle": "Auth Routes should return 400 if the email is already in use",
+              "timedOut": false,
+              "duration": 7,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const existingUser = {\n  name: \"logan\",\n  email: \"logan@gmail.com\", // Email already exists in the database\n  password: \"logan123\"\n};\n    \nchai\n  .request(app)\n  .post('/api/auth/signup')\n  .send(existingUser)\n  .end((err, res) => {\n    expect(res).to.have.status(400);\n    expect(res.body).to.be.an('object');\n    expect(res.body).to.have.property('error', 'Email already in use');\n    done();\n  });",
+              "err": {},
+              "uuid": "8230b04a-0bcc-4c3f-9846-7ed1f8aff772",
+              "parentUUID": "072f1405-a657-44ca-bdd2-9d9cc1647a47",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should return 400 when trying to create an account with null data",
+              "fullTitle": "Auth Routes should return 400 when trying to create an account with null data",
+              "timedOut": false,
+              "duration": 2,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const newUser=null;\nchai\n  .request(app)\n  .post('/api/auth/signup')\n  .send(newUser)\n  .end((err, res) => {\n    expect(res).to.have.status(400);\n    expect(res.body).to.be.an('object');\n    expect(res.body).to.have.property('error', 'Name, email, and password are required');\n    done();\n  });",
+              "err": {},
+              "uuid": "4e56c773-9dea-4d76-b5a2-a1fbb4886e4a",
+              "parentUUID": "072f1405-a657-44ca-bdd2-9d9cc1647a47",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "94fd16ca-350c-4bf8-b926-b04b21245272",
+            "8230b04a-0bcc-4c3f-9846-7ed1f8aff772",
+            "4e56c773-9dea-4d76-b5a2-a1fbb4886e4a"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 12,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        },
+        {
+          "uuid": "6addbcb8-1dac-4ff7-b3f8-ddb1d88f70f3",
+          "title": "Login Tests",
+          "fullFile": "/Users/newtonschool/Downloads/Authentication 2/__tests__/test.js",
+          "file": "/__tests__/test.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should log in successfully with valid credentials",
+              "fullTitle": "Login Tests should log in successfully with valid credentials",
+              "timedOut": false,
+              "duration": 63,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const data = {\n  email: \"logan@gmail.com\",\n  password: \"logan123\"\n};\n\nchai\n  .request(app)\n  .post('/api/auth/login')\n  .send(data)\n  .end((err, res) => {\n    expect(res).to.have.status(200);\n    expect(res.body).to.be.an('object');\n    expect(res.body).to.have.property('userdata');\n    expect(res.body.userdata).to.have.property('id');\n    expect(res.body.userdata).to.have.property('name');\n    expect(res.body.userdata).to.have.property('email');\n    expect(res.body).to.have.property('accesstoken');\n    const token = res.body.accesstoken;\n    try {\n      const decoded = jwt.verify(token, JWT_SECRET);\n      expect(decoded).to.be.an('object');\n      expect(decoded).to.have.property('userId', 1);\n    } catch (error) {\n      throw new Error(`Token verification failed: ${error.message}`);\n    }\n    done();\n  });",
+              "err": {},
+              "uuid": "abf70157-e10f-4762-bb28-ecef2e733bc7",
+              "parentUUID": "6addbcb8-1dac-4ff7-b3f8-ddb1d88f70f3",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should return 400 if email or password is missing",
+              "fullTitle": "Login Tests should return 400 if email or password is missing",
+              "timedOut": false,
+              "duration": 2,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "chai\n  .request(app)\n  .post('/api/auth/login')\n  .send({ email: \"logan@gmail.com\" }) // Password is missing\n  .end((err, res) => {\n    expect(res).to.have.status(400);\n    expect(res.body).to.be.an('object');\n    expect(res.body).to.have.property('error', 'Email and password are required');\n    done();\n  });",
+              "err": {},
+              "uuid": "a78d8471-84fa-4cd5-857a-131258b60c7e",
+              "parentUUID": "6addbcb8-1dac-4ff7-b3f8-ddb1d88f70f3",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should return 401 if the password is incorrect",
+              "fullTitle": "Login Tests should return 401 if the password is incorrect",
+              "timedOut": false,
+              "duration": 58,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const invalidCredentials = {\n  email: \"logan@gmail.com\", // Correct email\n  password: \"wrongpassword\" // Incorrect password\n};\n    \nchai\n  .request(app)\n  .post('/api/auth/login')\n  .send(invalidCredentials)\n  .end((err, res) => {\n    expect(res).to.have.status(401);\n    expect(res.body).to.be.an('object');\n    expect(res.body).to.have.property('error', 'Invalid credentials');\n    done();\n  });",
+              "err": {},
+              "uuid": "36c11d46-bcb2-4e02-b7b3-6221df7d675e",
+              "parentUUID": "6addbcb8-1dac-4ff7-b3f8-ddb1d88f70f3",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "abf70157-e10f-4762-bb28-ecef2e733bc7",
+            "a78d8471-84fa-4cd5-857a-131258b60c7e",
+            "36c11d46-bcb2-4e02-b7b3-6221df7d675e"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 123,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 60000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "8.4.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": null,
+      "version": "5.2.0"
+    }
+  }
+}
