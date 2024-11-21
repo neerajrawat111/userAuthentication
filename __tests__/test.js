@@ -39,6 +39,30 @@ describe('SignUp Tests', () => {
     expect(isPasswordValid).to.be.true;
   });
 
+  it('should return 400 if email is missing', async () => {
+    const userWithoutEmail = {
+      name: 'logan',
+      password: 'password123',
+    };
+  
+    const res = await chai.request(app).post('/api/auth/signup').send(userWithoutEmail);
+    expect(res).to.have.status(400);
+    expect(res.body).to.be.an('object');
+    expect(res.body).to.have.property('error');
+  });
+  
+  it('should return 400 if password is missing', async () => {
+    const userWithoutPassword = {
+      name: 'logan',
+      email: 'logan@gmail.com',
+    };
+  
+    const res = await chai.request(app).post('/api/auth/signup').send(userWithoutPassword);
+    expect(res).to.have.status(400);
+    expect(res.body).to.be.an('object');
+    expect(res.body).to.have.property('error');
+  });
+
   it('should return 400 if the email is already in use', async () => {
     const existingUser = {
       name: 'logan',
@@ -135,5 +159,24 @@ describe('Login Tests', () => {
     expect(res).to.have.status(401);
     expect(res.body).to.be.an('object');
     expect(res.body).to.have.property('error', 'Invalid credentials');
+  });
+
+  it('should return 404 if the user is not found', async () => {
+    // Data for a non-existing user
+    const nonExistingUser = {
+      email: 'nonexistentuser@gmail.com',
+      password: 'somepassword',
+    };
+
+    chai
+      .request(app)
+      .post('/api/auth/login')
+      .send(nonExistingUser)
+      .end((err, res) => {
+        // Assert that the response status is 404 (User Not Found)
+        expect(res).to.have.status(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('error', 'User not found');
+      });
   });
 });

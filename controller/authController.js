@@ -40,7 +40,7 @@ const signup = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: "Server error" });
   }
-};
+}
 
 const login = async (req, res) => {
   const { email, password } = req.body;
