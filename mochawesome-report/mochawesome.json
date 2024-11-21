@@ -5,9 +5,9 @@
     "passes": 5,
     "pending": 0,
     "failures": 0,
-    "start": "2024-11-21T04:22:32.455Z",
-    "end": "2024-11-21T04:22:32.918Z",
-    "duration": 463,
+    "start": "2024-11-21T05:02:23.838Z",
+    "end": "2024-11-21T05:02:24.283Z",
+    "duration": 445,
     "testsRegistered": 5,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "3c75f486-93a5-4269-bdc0-3cc658b350a1",
+      "uuid": "aec9fa82-3e5d-450d-80c3-39c7ad59f755",
       "title": "",
       "fullFile": "",
       "file": "",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "7ec368f1-487b-4a72-8b3d-b827aad97493",
+          "uuid": "28ff6dcb-ce75-4fcf-8f69-8205e29d6520",
           "title": "SignUp Tests",
           "fullFile": "/Users/newtonschool/Downloads/Auth/Authentication 2/__tests__/test.js",
           "file": "/__tests__/test.js",
@@ -36,7 +36,7 @@
               "title": "\"before each\" hook in \"SignUp Tests\"",
               "fullTitle": "SignUp Tests \"before each\" hook in \"SignUp Tests\"",
               "timedOut": false,
-              "duration": 1,
+              "duration": 2,
               "state": null,
               "speed": null,
               "pass": false,
@@ -45,8 +45,8 @@
               "context": null,
               "code": "await prisma.user.deleteMany();",
               "err": {},
-              "uuid": "1045c0e5-c366-4034-b976-45022408fdc7",
-              "parentUUID": "7ec368f1-487b-4a72-8b3d-b827aad97493",
+              "uuid": "b9f4b076-6bed-48d9-b5c4-125c899c5f41",
+              "parentUUID": "28ff6dcb-ce75-4fcf-8f69-8205e29d6520",
               "isHook": true,
               "skipped": false
             }
@@ -57,7 +57,7 @@
               "title": "should create account for a given user",
               "fullTitle": "SignUp Tests should create account for a given user",
               "timedOut": false,
-              "duration": 143,
+              "duration": 137,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -66,8 +66,8 @@
               "context": null,
               "code": "const newUser = {\n  name: 'logan',\n  email: 'logan12@gmail.com',\n  password: 'logan1234',\n};\n// Send request to create a new user\nconst res = await chai.request(app).post('/api/auth/signup').send(newUser);\nexpect(res).to.have.status(201);\nexpect(res.body).to.be.an('object');\nexpect(res.body).to.have.property('userId');\n// Verify user in the database\nconst userInDb = await prisma.user.findUnique({\n  where: { id: res.body.userId },\n});\nexpect(userInDb).to.exist;\nexpect(userInDb.email).to.equal(newUser.email);\n// Check if password is hashed correctly\nconst isPasswordValid = await bcrypt.compare(newUser.password, userInDb.password);\nexpect(isPasswordValid).to.be.true;",
               "err": {},
-              "uuid": "86a1308f-1770-4077-aeb9-3d598ff29bb0",
-              "parentUUID": "7ec368f1-487b-4a72-8b3d-b827aad97493",
+              "uuid": "3dd562f8-00cb-47b3-892c-18dbad34546a",
+              "parentUUID": "28ff6dcb-ce75-4fcf-8f69-8205e29d6520",
               "isHook": false,
               "skipped": false
             },
@@ -75,7 +75,7 @@
               "title": "should return 400 if the email is already in use",
               "fullTitle": "SignUp Tests should return 400 if the email is already in use",
               "timedOut": false,
-              "duration": 63,
+              "duration": 61,
               "state": "passed",
               "speed": "medium",
               "pass": true,
@@ -84,27 +84,27 @@
               "context": null,
               "code": "const existingUser = {\n  name: 'logan',\n  email: 'logan@gmail.com',\n  password: await bcrypt.hash('logan123', 10),\n};\nawait prisma.user.create({ data: existingUser });\nconst duplicateUser = {\n  name: 'logan',\n  email: 'logan@gmail.com', \n  password: 'logan123',\n};\nconst res = await chai.request(app).post('/api/auth/signup').send(duplicateUser);\nexpect(res).to.have.status(400);\nexpect(res.body).to.be.an('object');\nexpect(res.body).to.have.property('error', 'Email already in use');",
               "err": {},
-              "uuid": "65715760-9625-4ef7-9107-a06a3f5dd238",
-              "parentUUID": "7ec368f1-487b-4a72-8b3d-b827aad97493",
+              "uuid": "008c52b0-c636-4d57-b9ed-fd13b0986ecd",
+              "parentUUID": "28ff6dcb-ce75-4fcf-8f69-8205e29d6520",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "86a1308f-1770-4077-aeb9-3d598ff29bb0",
-            "65715760-9625-4ef7-9107-a06a3f5dd238"
+            "3dd562f8-00cb-47b3-892c-18dbad34546a",
+            "008c52b0-c636-4d57-b9ed-fd13b0986ecd"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 206,
+          "duration": 198,
           "root": false,
           "rootEmpty": false,
           "_timeout": 60000
         },
         {
-          "uuid": "60490a94-7af5-49ff-b72f-87dbfa264291",
+          "uuid": "23bd4ed7-ee65-4330-a2fe-965aa0cfebca",
           "title": "Login Tests",
           "fullFile": "/Users/newtonschool/Downloads/Auth/Authentication 2/__tests__/test.js",
           "file": "/__tests__/test.js",
@@ -113,7 +113,7 @@
               "title": "\"before each\" hook in \"Login Tests\"",
               "fullTitle": "Login Tests \"before each\" hook in \"Login Tests\"",
               "timedOut": false,
-              "duration": 0,
+              "duration": 1,
               "state": null,
               "speed": null,
               "pass": false,
@@ -122,8 +122,8 @@
               "context": null,
               "code": "await prisma.user.deleteMany();",
               "err": {},
-              "uuid": "fbaf0d0a-cc45-4428-9ec1-06524e45aa52",
-              "parentUUID": "60490a94-7af5-49ff-b72f-87dbfa264291",
+              "uuid": "d3ead40a-39a2-4a86-95d6-7105aa5ea16c",
+              "parentUUID": "23bd4ed7-ee65-4330-a2fe-965aa0cfebca",
               "isHook": true,
               "skipped": false
             }
@@ -143,8 +143,8 @@
               "context": null,
               "code": "const existingUser = {\n      name: 'logan',\n      email: 'logan@gmail.com',\n      password: await bcrypt.hash('logan123', 10),\n    };\n    const createdUser= await prisma.user.create({ data: existingUser });\n    \n    const data = {\n      email: \"logan@gmail.com\",\n      password: \"logan123\"\n    };\n    \n    chai\n      .request(app)\n      .post('/api/auth/login')\n      .send(data)\n      .end((err, res) => {\n        expect(res).to.have.status(200);\n        expect(res.body).to.be.an('object');\n        expect(res.body).to.have.property('userdata');\n        expect(res.body.userdata).to.have.property('id');\n        expect(res.body.userdata).to.have.property('name');\n        expect(res.body.userdata).to.have.property('email');\n        expect(res.body).to.have.property('accesstoken');\n        const token = res.body.accesstoken;\n        try {\n          const decoded = jwt.verify(token, JWT_SECRET);\n          expect(decoded).to.be.an('object');\n          expect(decoded).to.have.property('userId', createdUser.id);\n        } catch (error) {\n          throw new Error(`Token verification failed: ${error.message}`);\n        }\n      });",
               "err": {},
-              "uuid": "abe7a494-1ab7-4b0b-8fd3-f234f4ab2218",
-              "parentUUID": "60490a94-7af5-49ff-b72f-87dbfa264291",
+              "uuid": "debaa25d-065d-46f5-8936-ec3b3a5558a3",
+              "parentUUID": "23bd4ed7-ee65-4330-a2fe-965aa0cfebca",
               "isHook": false,
               "skipped": false
             },
@@ -161,8 +161,8 @@
               "context": null,
               "code": "chai\n  .request(app)\n  .post('/api/auth/login')\n  .send({ email: \"logan@gmail.com\" }) // Password is missing\n  .end((err, res) => {\n    expect(res).to.have.status(400);\n    expect(res.body).to.be.an('object');\n    expect(res.body).to.have.property('error', 'Email and password are required');\n  });",
               "err": {},
-              "uuid": "0e513f24-908e-4d17-8ae1-31ebd2f11b7c",
-              "parentUUID": "60490a94-7af5-49ff-b72f-87dbfa264291",
+              "uuid": "8274e260-1983-4e76-b00e-8b81d47c199c",
+              "parentUUID": "23bd4ed7-ee65-4330-a2fe-965aa0cfebca",
               "isHook": false,
               "skipped": false
             },
@@ -170,7 +170,7 @@
               "title": "should return 401 if the password is incorrect",
               "fullTitle": "Login Tests should return 401 if the password is incorrect",
               "timedOut": false,
-              "duration": 116,
+              "duration": 122,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -179,22 +179,22 @@
               "context": null,
               "code": "const existingUser = {\n  name: 'logan',\n  email: 'logan@gmail.com',\n  password: await bcrypt.hash('correctpassword', 10),\n};\nawait prisma.user.create({ data: existingUser });\n  \nconst invalidCredentials = {\n  email: 'logan@gmail.com',\n  password: 'wrongpassword', // Incorrect password\n};\n  \nconst res = await chai.request(app).post('/api/auth/login').send(invalidCredentials);\nexpect(res).to.have.status(401);\nexpect(res.body).to.be.an('object');\nexpect(res.body).to.have.property('error', 'Invalid credentials');",
               "err": {},
-              "uuid": "3e41ab97-eeeb-4fb9-96fb-641c8eb7ebfe",
-              "parentUUID": "60490a94-7af5-49ff-b72f-87dbfa264291",
+              "uuid": "7487c323-cccd-407b-95a5-08b785da2d08",
+              "parentUUID": "23bd4ed7-ee65-4330-a2fe-965aa0cfebca",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "abe7a494-1ab7-4b0b-8fd3-f234f4ab2218",
-            "0e513f24-908e-4d17-8ae1-31ebd2f11b7c",
-            "3e41ab97-eeeb-4fb9-96fb-641c8eb7ebfe"
+            "debaa25d-065d-46f5-8936-ec3b3a5558a3",
+            "8274e260-1983-4e76-b00e-8b81d47c199c",
+            "7487c323-cccd-407b-95a5-08b785da2d08"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 175,
+          "duration": 181,
           "root": false,
           "rootEmpty": false,
           "_timeout": 60000

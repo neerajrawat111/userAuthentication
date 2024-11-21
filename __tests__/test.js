@@ -58,6 +58,7 @@ describe('SignUp Tests', () => {
     expect(res.body).to.be.an('object');
     expect(res.body).to.have.property('error', 'Email already in use');
   });
+  
 });
 
 
@@ -135,6 +136,4 @@ describe('Login Tests', () => {
     expect(res.body).to.be.an('object');
     expect(res.body).to.have.property('error', 'Invalid credentials');
   });
-  
-
 });
